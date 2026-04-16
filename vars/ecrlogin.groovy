@@ -1,7 +1,14 @@
-// vars/projectconfig.groovy
-def call() {
-    return [
-        ecr_url: '772064137213.dkr.ecr.us-east-1.amazonaws.com/devopsproject',
-        aws_creds: 'aws-cred' // <--- MUST match the ID in Jenkins Credentials
-    ]
+def call(Map config = [:]) {
+    // Access the passed parameter using config.keyName
+    def version = config.appVersion ?: 'latest'
+    
+    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-cred']]) {
+        sh """
+            aws ecr get-login-password --region ${env.AWS_REGION} | \
+            docker login --username AWS --password-stdin ${env.ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com
+        """
+        
+        // Example: Using the version passed from the Jenkinsfile
+        echo "Successfully logged in to ECR for version: ${version}"
+    }
 }
