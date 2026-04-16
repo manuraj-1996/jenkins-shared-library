@@ -1,8 +1,8 @@
 def call() {
 return[
-repourl: 'https://github.com/manuraj-1996/jenkins-shared-library.git'
-credsid: 'Githubtoken'
-awsregion: 'us-east-1'
+repourl: 'https://github.com/manuraj-1996/jenkins-shared-library.git',
+credsid: 'Githubtoken',
+awsregion: 'us-east-1',
 accountid: '772064137213'
 ]
 }
